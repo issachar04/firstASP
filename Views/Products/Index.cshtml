@@ -5,18 +5,15 @@
 }
 
 <h1>Products</h1>
-<a asp-action="Index" class="btn btn-primary mb-3">+ Add Product</a>
-<form asp-action="Index" method="get" class="mb-3">
-    <input type="text" name="searchString" value="@ViewData["searchString"]"
-           placeholder="Search product name..." />
-    <button type="submit">Search</button>
-    <a asp-action="Index">Clear</a>
-</form>
+<a asp-action="Create" class="btn btn-primary mb-3">+ Add Product</a>
+@* Live search: no button, it filters while you type *@
+<input type="text" id="searchBox" class="form-control mb-3"
+       placeholder="Search product name..." />
 <table class="table table-bordered">
     <thead>
         <tr><th>Id</th><th>Name</th><th>Price</th><th>Actions</th></tr>
     </thead>
-    <tbody>
+    <tbody id="productRows">
         @foreach (var p in Model)
         {
             <tr>
@@ -32,3 +29,22 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+<script>
+    // Runs every time a key is typed in the search box
+    document.getElementById("searchBox").addEventListener("input", function () {
+        // What the user typed, in lowercase so "PAPER" matches "Paper"
+        const text = this.value.toLowerCase();
+
+        // Look at every row in the table
+        document.querySelectorAll("#productRows tr").forEach(function (row) {
+            // The Name is the 2nd cell in each row
+            const name = row.cells[1].textContent.toLowerCase();
+
+            // Show the row if the name contains the text, hide it if not
+            row.style.display = name.includes(text) ? "" : "none";
+        });
+    });
+</script>
+}

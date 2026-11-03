@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using firstASP.Data;
-using firstASP.Models; 
+using firstASP.Models;
 namespace firstASP.Controllers
 {
     public class ProductsController : Controller
@@ -12,11 +12,12 @@ namespace firstASP.Controllers
             _db = db;
         }
 
-        // public IActionResult Index()
-        // {
-        //     var products = _db.Products.ToList();  // works just like _db.Users!
-        //     return View(products);
-        // }
+        // Show all products; the search box filters them in the browser
+        public IActionResult Index()
+        {
+            var products = _db.Products.ToList();  // works just like _db.Users!
+            return View(products);
+        }
         // Show the empty "Add" form
         public IActionResult Create()
         {
@@ -58,18 +59,5 @@ namespace firstASP.Controllers
             }
             return RedirectToAction("Index");
         }
-        
-        public IActionResult Index(string searchString)
-{
-    var products = _db.Products.AsQueryable();
-
-    if (!string.IsNullOrEmpty(searchString))
-    {
-        products = products.Where(p => p.Name.Contains(searchString));
-    }
-
-    ViewData["searchString"] = searchString; // keep what they typed
-    return View(products.ToList());
-}
     }
 }
