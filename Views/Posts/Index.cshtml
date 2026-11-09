@@ -1,0 +1,32 @@
+@model List<firstASP.Models.Post>
+
+@{
+    ViewData["Title"] = "Posts";
+}
+
+<h1>Posts</h1>
+<p class="text-muted">
+    This data comes from an outside website:
+    <a href="https://jsonplaceholder.typicode.com/posts" target="_blank">jsonplaceholder.typicode.com</a>
+</p>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr><th>Id</th><th>Title</th><th>Body</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Id</td>
+                <td>@p.Title</td>
+                <td>@p.Body</td>
+            </tr>
+        }
+    </tbody>
+</table>
